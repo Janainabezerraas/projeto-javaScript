@@ -1,4 +1,13 @@
-export class Livro {
+export type venda = {
+    cliente: string;
+    dia: number;
+    mes: number;
+    anoDaVenda: number;
+};
+export type vendaFisica = venda & { unidades: number; };
+export type vendaDigital = venda & { extensao: string; };
+
+export abstract class Livro {
 
     private _id: number;
     private _titulo: string;
@@ -12,8 +21,8 @@ export class Livro {
         this._titulo = titulo;
         this._autor = autor;
         this._ano = ano;
-        this._valor = valor;
         this._formato = formato;
+        this._valor = valor;
     }
 
     public get id() {
@@ -48,6 +57,7 @@ export class Livro {
         this._ano = ano;
     }
 
+
     public get formato() {
         return this._formato;
     }
@@ -64,17 +74,18 @@ export class Livro {
         this._valor = valor;
     }
 
-    
+    public abstract registrarVenda(registro: venda): boolean;
+
     public visualizar(): void {
 
-        let tipo: string = "";
+        let formato: string = "";
         switch (this._formato) {
 
             case 1:
-                tipo = "Livro digital";
+                formato = "Livro fisico";
                 break;
             case 2:
-                tipo = "Livro fisico";
+                formato = "Livro digital";
                 break;
         }
 
@@ -85,9 +96,9 @@ export class Livro {
         console.log("Id do livro: " + this._id);
         console.log("Titulo: " + this._titulo);
         console.log("Autor: " + this._autor);
-        console.log("Ano: " + this._ano);
+        console.log("ano: " + this.ano);
         console.log("Formato: " + this.formato);
         console.log("Valor original (R$): " + this.valor.toFixed(2));
-    
+
     }
 }
